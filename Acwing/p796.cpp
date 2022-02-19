@@ -1,0 +1,46 @@
+/**
+ * @file template.cpp
+ * @author Emanual20(Emanual20@foxmail.com)
+ * @brief For Codeforces, Atcoder or some other OJs else
+ * @version 0.1
+ * @date 2022-02-19
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+#pragma GCC optimize(2)
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+const int maxn = 1e3 + 10;
+int n, m, q;
+int a[maxn][maxn], column[maxn], pre[maxn][maxn];
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin >> n >> m >> q;
+    for (int i = 1; i <= n; i++){
+        for (int j = 1; j <= m; j++){
+            cin >> a[i][j];
+        }
+    }
+
+    for (int i = 1; i <= n; i++){
+        for (int j = 1; j <= m; j++){
+            column[j] += a[i][j];
+        }
+        for (int j = 1; j <= m; j++){
+            pre[i][j] = pre[i][j - 1] + column[j];
+        }
+    }
+
+    while(q--){
+        int x1, y1, x2, y2;
+        cin >> x1 >> y1 >> x2 >> y2;
+        int ans = pre[x2][y2] - pre[x2][y1 - 1] - pre[x1 - 1][y2] + pre[x1 - 1][y1 - 1];
+        cout << ans << '\n';
+    }
+    return 0;
+}
