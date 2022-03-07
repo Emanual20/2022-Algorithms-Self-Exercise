@@ -3,7 +3,7 @@
  * @author Emanual20(Emanual20@foxmail.com)
  * @brief For Codeforces, Atcoder or some other OJs else
  * @version 0.1
- * @date 2022-03-06
+ * @date 2022-03-05
  * 
  * @copyright Copyright (c) 2022
  * 
@@ -13,9 +13,20 @@
 using namespace std;
 typedef long long ll;
 const int maxn = 2e5 + 10;
+string s1, s2;
+vector<string> v;
 int main(){
     ios::sync_with_stdio(false);
     cin.tie(0);
     cout.tie(0);
 
+    cin >> s1 >> s2;
+    for (int i = 1; i <= s1.length(); i++){
+        for (int j = 1; j <= s2.length(); j++){
+            v.push_back(s1.substr(0, i) + s2.substr(0, j));
+        }
+    }
+    sort(v.begin(), v.end());
+    cout << v[0] << endl;
+    return 0;
 }

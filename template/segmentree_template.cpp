@@ -6,62 +6,58 @@ int a[maxn];
 struct node{
 	int sum, left, right;
 	int lazy;
-}tree[4*maxn];
+} tree[4 * maxn];
+
+#define lson(x) ((x) << 1)
+#define rson(x) ((x) << 1 | 1)
+#define father(x) ((x) >> 1)
 
 void Pushup(int k){
-	tree[k].sum = tree[k << 1].sum + tree[k << 1 | 1].sum;
-	return;
+	tree[k].sum = tree[lson(k)].sum + tree[rson(k)].sum;
 }
 
-void build(int k,int left, int right){
-	tree[k].left = left;
-	tree[k].right = right;
+void build(int left, int right, int k = 1){
+	tree[k].left = left, tree[k].right = right;
 	if (left == right){
 		tree[k].sum = a[left];
 		return;
 	}
 	int mid = (left + right) >> 1;
-	build(k << 1, left, mid);
-	build(k << 1 | 1, mid + 1, right);
-
+	build(left, mid, lson(k));
+	build(mid + 1, right, rson(k));
 	Pushup(k);
 }
 
 void Pushdown(int k){
 	if (tree[k].lazy == 0) return;
-
-	tree[k << 1].lazy += tree[k].lazy;
-	tree[k << 1 | 1].lazy += tree[k].lazy;
-	tree[k << 1].sum += tree[k].lazy*(tree[k << 1].right - tree[k << 1].left + 1);
-	tree[k << 1 | 1].sum += tree[k].lazy*(tree[k << 1 | 1].right - tree[k << 1 | 1].left + 1);
+	tree[lson(k)].lazy += tree[k].lazy, tree[rson(k)].lazy += tree[k].lazy;
+	tree[lson(k)].sum += tree[k].lazy * (tree[lson(k)].right - tree[lson(k)].left + 1);
+	tree[rson(k)].sum += tree[k].lazy * (tree[rson(k)].right - tree[rson(k)].left + 1);
 	tree[k].lazy = 0;
 }
 
-void Update_seg(int l, int r, int x, int y, int k, int C){
+void Update_seg(int l, int r, int x, int y, int C, int k = 1){
 	if (x <= l && r <= y){
-		tree[k].sum += (r - l + 1)*C;
+		tree[k].sum += (r - l + 1) * C;
 		tree[k].lazy += C;
 		return;
 	}
-
 	Pushdown(k);
 	int mid = (l + r) >> 1;
-	if(x<=mid) Update_seg(l, mid, x, y, k << 1, C);
-	if(y>mid) Update_seg(mid + 1, r, x, y, k << 1 | 1, C);
+	if(x <= mid) Update_seg(l, mid, x, y, C, lson(k));
+	if(y > mid) Update_seg(mid + 1, r, x, y, C, rson(k));
 	Pushup(k);
 }
 
-int Query_seg(int l, int r, int x, int y, int k){
-	int sum = 0;
+int Query_seg(int l, int r, int x, int y, int k = 1){
+	int ret = 0;
 	if (x <= l && r <= y){
-		sum = tree[k].sum;
-		return sum;
+		ret = tree[k].sum;
+		return ret;
 	}
-
 	Pushdown(k);
-
 	int mid = (l + r) >> 1;
-	if (mid >= x) sum += Query_seg(l, mid, x, y, k<<1);
-	if (mid < y) sum += Query_seg(mid + 1, r, x, y, k << 1 | 1);
-	return sum;
+	if (mid >= x) ret += Query_seg(l, mid, x, y, lson(k));
+	if (mid < y) ret += Query_seg(mid + 1, r, x, y, rson(k));
+	return ret;
 }

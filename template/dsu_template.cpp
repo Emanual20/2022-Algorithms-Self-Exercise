@@ -12,7 +12,8 @@ int find(int k){
 }
 void merge(int dst, int src){
     int ds = find(dst), sr = find(src);
-    f[sr] = ds, sz[ds] += sz[sr];
+    f[sr] = ds;
+    if(ds != sr) sz[ds] += sz[sr];
 }
 int main(){
     dsu_init();
