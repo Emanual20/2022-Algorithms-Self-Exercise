@@ -1,8 +1,25 @@
+/**
+ * @file template.cpp
+ * @author Emanual20(Emanual20@foxmail.com)
+ * @brief For Codeforces, Atcoder or some other OJs else
+ * @version 0.1
+ * @date 2022-03-20
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+#pragma GCC optimize(2)
 #include<bits/stdc++.h>
 using namespace std;
 typedef long long ll;
-const int maxn = 2e5 + 10;
-int a[maxn];
+const int maxn = 4e5 + 10;
+ll n, t, a[maxn], pre[maxn], ans = 0;
+ll init_a[maxn];
+vector<ll> vec;
+
+int find_rank(ll x){
+    return lower_bound(vec.begin(), vec.end(), x) - vec.begin() + 1;
+}
 
 #define lson(x) ((x) << 1)
 #define rson(x) ((x) << 1 | 1)
@@ -24,7 +41,7 @@ public:
 	void build(int left, int right, int k = 1){
 		tree[k].left = left, tree[k].right = right;
 		if (left == right){
-			tree[k].sum = a[left];
+			tree[k].sum = init_a[left];
 			return;
 		}
 		int mid = (left + right) >> 1;
@@ -67,3 +84,34 @@ public:
 		return ret;
 	}
 };
+
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin >> n >> t;
+    vec.push_back(0);
+    for (int i = 1; i <= n; i++){
+        cin >> a[i];
+        pre[i] = pre[i - 1] + a[i];
+        vec.push_back(pre[i]), vec.push_back(pre[i] - t);
+    }
+    sort(vec.begin(), vec.end());
+    vec.erase(unique(vec.begin(), vec.end()), vec.end());
+
+    seg_tree st;
+    st.build(1, vec.size());
+    st.Update_seg(1, vec.size(), find_rank(0), find_rank(0), 1);
+
+    for (int i = 1; i <= n; i++){
+        int tmp = 0, nowq_rk = find_rank(pre[i] - t);
+        if(nowq_rk + 1 <= vec.size()) tmp = st.Query_seg(1, vec.size(), nowq_rk + 1, vec.size());
+        ans += tmp;
+
+        int nowupd_rk = find_rank(pre[i]);
+        st.Update_seg(1, vec.size(), nowupd_rk, nowupd_rk, 1);
+    }
+    cout << ans << endl;
+    return 0;
+}
