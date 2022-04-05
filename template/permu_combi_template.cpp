@@ -3,7 +3,7 @@ using namespace std;
 typedef long long ll;
 const int maxn = 2e5 + 10;
 ll MOD = 998244353;
-ll fac[maxn], inv[maxn], n, a, b;
+ll fac[maxn], inv[maxn], n, a;
 vector<ll> items;
 ll quickpow(ll base, ll index){
     ll ret = 1;

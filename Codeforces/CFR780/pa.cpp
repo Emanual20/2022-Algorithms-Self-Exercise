@@ -3,7 +3,7 @@
  * @author Emanual20(Emanual20@foxmail.com)
  * @brief For Codeforces, Atcoder or some other OJs else
  * @version 0.1
- * @date 2022-04-05
+ * @date 2022-03-31
  * 
  * @copyright Copyright (c) 2022
  * 
@@ -13,9 +13,21 @@
 using namespace std;
 typedef long long ll;
 const int maxn = 2e5 + 10;
+int t, a, b;
 int main(){
     ios::sync_with_stdio(false);
     cin.tie(0);
     cout.tie(0);
 
+    cin >> t;
+    while(t--){
+        cin >> a >> b;
+        if(a == 0){
+            cout << 1 << "\n";
+        }
+        else{
+            cout << a + b * 2 + 1<< "\n";
+        }
+    }
+    return 0;
 }
