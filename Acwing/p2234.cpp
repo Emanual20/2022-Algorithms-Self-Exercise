@@ -1,3 +1,13 @@
+/**
+ * @file template.cpp
+ * @author Emanual20(Emanual20@foxmail.com)
+ * @brief For Codeforces, Atcoder or some other OJs else
+ * @version 0.1
+ * @date 2022-04-06
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #pragma GCC optimize(2)
 #include<bits/stdc++.h>
 using namespace std;
@@ -16,10 +26,6 @@ void AddEdge(int fm, int to, int c){
     int fmrid = edges[to].size(), torid = edges[fm].size();
     edges[fm].push_back({to, c, torid, fmrid});
     edges[to].push_back({fm, 0, fmrid, torid});    
-}
-
-void RemoveLastEdge(int fm, int to){
-    edges[fm].pop_back(), edges[to].pop_back();
 }
 
 bool dilaminate(){
@@ -66,4 +72,29 @@ ll dinic(){
             ret += tmp;
     }
     return ret;
+}
+
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(0), cout.tie(0);
+
+    int x, tots, tott;
+    cin >> n >> m >> tots >> tott;
+    for (int i = 1; i <= tots; i++){
+        cin >> x;
+        AddEdge(0, x, inf);
+    }
+    for (int i = 1; i <= tott; i++){
+        cin >> x;
+        AddEdge(x, n + 1, inf);
+    }
+    for (int i = 1; i <= m; i++){
+        int fm, to, c;
+        cin >> fm >> to >> c;
+        AddEdge(fm, to, c);
+    }
+    S = 0, T = n + 1;
+    int ans = dinic();
+    cout << ans << endl;
+    return 0;
 }

@@ -1,7 +1,18 @@
+/**
+ * @file template.cpp
+ * @author Emanual20(Emanual20@foxmail.com)
+ * @brief For Codeforces, Atcoder or some other OJs else
+ * @version 0.1
+ * @date 2022-04-08
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #pragma GCC optimize(2)
 #include<bits/stdc++.h>
 using namespace std;
 typedef long long ll;
+
 const int maxn = 2e5 + 10;
 const int inf = 0x3f3f3f3f;
 int n, m, S, T, d[maxn], cur[maxn];
@@ -66,4 +77,49 @@ ll dinic(){
             ret += tmp;
     }
     return ret;
+}
+
+int num_n, num_f, num_d;
+
+int cow2no(int off){
+    return 2 * off;
+}
+
+int food2no(int off){
+    return 2 * num_n + 2 + off;
+}
+
+int drink2no(int off){
+    return 2 * num_n + 2 + num_f + 1 + off;
+}
+
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(0), cout.tie(0);
+
+    cin >> num_n >> num_f >> num_d;
+    for (int i = 0; i < num_n; i++){
+        int nf, nd, x;
+        cin >> nf >> nd;
+        for (int j = 0; j < nf; j++){
+            cin >> x;
+            AddEdge(food2no(x - 1), cow2no(i), 1);
+        }
+        for (int j = 0; j < nd; j++){
+            cin >> x;
+            AddEdge(cow2no(i) + 1, drink2no(x - 1), 1);
+        }
+        AddEdge(cow2no(i), cow2no(i) + 1, 1);
+    }
+
+    S = drink2no(num_d) + 1, T = S + 1;
+    for (int i = 0; i < num_f; i++){
+        AddEdge(S, food2no(i), 1);
+    }
+    for (int i = 0; i < num_d; i++){
+        AddEdge(drink2no(i), T, 1);
+    }
+    int ans = dinic();
+    cout << ans << endl;
+    return 0;
 }

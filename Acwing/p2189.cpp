@@ -1,10 +1,21 @@
+/**
+ * @file template.cpp
+ * @author Emanual20(Emanual20@foxmail.com)
+ * @brief For Codeforces, Atcoder or some other OJs else
+ * @version 0.1
+ * @date 2022-04-06
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #pragma GCC optimize(2)
 #include<bits/stdc++.h>
 using namespace std;
 typedef long long ll;
+
 const int maxn = 2e5 + 10;
-const int inf = 0x3f3f3f3f;
-int n, m, S, T, d[maxn], cur[maxn];
+const ll inf = 0x3f3f3f3f;
+int n, m, S, T, s, t, d[maxn], cur[maxn];
 
 struct edge{
     ll to, f;
@@ -19,7 +30,8 @@ void AddEdge(int fm, int to, int c){
 }
 
 void RemoveLastEdge(int fm, int to){
-    edges[fm].pop_back(), edges[to].pop_back();
+    edges[fm].back().f = 0;
+    edges[to].back().f = 0;
 }
 
 bool dilaminate(){
@@ -66,4 +78,44 @@ ll dinic(){
             ret += tmp;
     }
     return ret;
+}
+
+int e_tot = 0, anti = 0;
+
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(0), cout.tie(0);
+
+    cin >> n >> m >> s >> t;
+    vector<int> ctot(n + 1, 0);
+    for (int i = 1; i <= m; i++){
+        int fm, to, lc, uc;
+        cin >> fm >> to >> lc >> uc;
+        AddEdge(fm, to, uc - lc);
+        ctot[fm] += lc, ctot[to] -= lc;
+    }
+
+    S = 0, T = n + 1;
+    for (int i = 1; i <= n; i++){
+        if(ctot[i] > 0){
+            AddEdge(i, T, ctot[i]), anti += ctot[i];
+        }
+        else if(ctot[i] < 0){
+            AddEdge(S, i, -ctot[i]);
+        }
+    }
+    AddEdge(t, s, inf);
+
+    int ans_1 = dinic();
+    if(ans_1 != anti){
+        cout << "No Solution" << endl;
+    }
+    else{
+        int res = edges[s].back().f;
+        RemoveLastEdge(t, s);
+        S = s, T = t;
+        int ans_2 = dinic();
+        cout << res + ans_2 << endl;
+    }
+    return 0;
 }

@@ -13,8 +13,14 @@
 using namespace std;
 typedef long long ll;
 const int maxn = 2e5 + 10;
+int k, n;
+ll a[maxn];
 int main(){
     ios::sync_with_stdio(false);
     cin.tie(0), cout.tie(0);
 
+    cin >> n >> k;
+    for (int i = 1; i <= n; i++){
+        cin >> a[i];
+    }
 }
