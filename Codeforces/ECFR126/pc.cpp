@@ -32,6 +32,20 @@ bool check(ll tmp){
     return tot <= day1;
 }
 
+ll solve(){
+    ll left = 0, right = 3e14;
+    while(left < right){
+        ll mid = left + right >> 1;
+        if(check(mid)){
+            right = mid;
+        }
+        else{
+            left = mid + 1;
+        }
+    }
+    return right;
+}
+
 int main(){
     ios::sync_with_stdio(false);
     cin.tie(0), cout.tie(0);
@@ -47,34 +61,13 @@ int main(){
         for (int i = 1; i <= n; i++){
             a[i] = maxi - h[i];
         }
-
-        ll left = 0, right = 3e14;
-        while(left < right){
-            ll mid = left + right >> 1;
-            if(check(mid)){
-                right = mid;
-            }
-            else{
-                left = mid + 1;
-            }
-        }
-        ll ans = right;
+        ll ans = solve();
 
         for (int i = 1; i <= n; i++){
             a[i] += 1;
         }
+        ans = min(ans, solve());
 
-        left = 0, right = 3e14;
-        while(left < right){
-            ll mid = left + right >> 1;
-            if(check(mid)){
-                right = mid;
-            }
-            else{
-                left = mid + 1;
-            }
-        }
-        ans = min(ans, right);
         cout << ans << "\n";
     }
     return 0;
