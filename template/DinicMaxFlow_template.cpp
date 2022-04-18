@@ -10,6 +10,7 @@ struct edge{
     ll to, f;
     int nid, rid;
 };
+
 vector<edge> edges[maxn];
 
 void AddEdge(int fm, int to, int c){
