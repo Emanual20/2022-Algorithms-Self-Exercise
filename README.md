@@ -10,14 +10,14 @@ AcWing为主线系统学习之前没有学习过的知识点，辅以Codeforces�
 
 ### 我的OJ账号分数
 
-希望能在2022年CF上紫（1655/1900），LC上红（2121/2400）！
+希望能在2022年CF上紫（1692/1900），LC上红（2175/2400）！
 
 [CLIST汇总](https://clist.by/coder/emanual20/)
 
 ### 最近完成内容
 
 - 网络流之最大流（EK，Dinic）
-- 数位dp，树形dp
+- 数位dp，树形dp，状压dp，区间dp
 - 线段树, 可持久化线段树
 - 带权并查集
 - SCC, e-DCC, v-DCC(tarjan)
