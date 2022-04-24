@@ -17,7 +17,7 @@ int a[maxn], vis[maxn], n, maxi = 1, tot = 0;
 int ggcd[maxn];
 
 ll ex_gcd(ll a, ll b) {
-	return b == 0 ? a : ex_gcd(b, a % b);
+	return !b ? a : ex_gcd(b, a % b);
 }
 
 int main(){
