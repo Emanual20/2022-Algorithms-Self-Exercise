@@ -33,7 +33,7 @@ int main(){
 
         ll ans = 0;
         for (int i = 1; i <= n; i++){
-            auto iter_r = st.lower_bound(i);
+            auto iter_r = st.(i);
             auto iter_l = iter_r--;
             ll tmp = min(*iter_r - i + 1, i - *iter_l + 1);
             ans = max(ans, tmp);
