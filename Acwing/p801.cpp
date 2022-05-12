@@ -3,7 +3,7 @@
  * @author Emanual20(Emanual20@foxmail.com)
  * @brief For Codeforces, Atcoder or some other OJs else
  * @version 0.1
- * @date 2022-05-12
+ * @date 2022-05-11
  * 
  * @copyright Copyright (c) 2022
  * 
@@ -12,12 +12,24 @@
 #include<bits/stdc++.h>
 using namespace std;
 typedef long long ll;
-typedef unsigned long long ull;
-
-const int maxn = 2e5 + 10;
-
+const int maxn = 1e5 + 10;
+int n, a[maxn];
 int main(){
     ios::sync_with_stdio(false);
     cin.tie(0), cout.tie(0);
 
+    cin >> n;
+    for (int i = 1; i <= n; i++){
+        cin >> a[i];
+    }
+
+    for (int i = 1; i <= n; i++){
+        int tot = 0;
+        for (int j = 31; j >= 0; j--){
+            tot += (a[i] >> j) & 1;
+        }
+        cout << tot << " ";
+    }
+    cout << endl;
+    return 0;
 }

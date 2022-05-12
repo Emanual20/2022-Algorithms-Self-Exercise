@@ -26,7 +26,7 @@ void Prime_Factorization(int x){
             while(x % i == 0){
                 x /= i, tot++;
             }
-            items.push_back({x, tot});
+            items.push_back({i, tot});
         }
     }
     if(x > 1) items.push_back({x, 1});
