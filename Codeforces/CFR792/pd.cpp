@@ -1,0 +1,70 @@
+/**
+ * @file template.cpp
+ * @author Emanual20(Emanual20@foxmail.com)
+ * @brief For Codeforces, Atcoder or some other OJs else
+ * @version 0.1
+ * @date 2022-05-19
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+#pragma GCC optimize(2)
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef unsigned long long ull;
+typedef pair<int, int> pii;
+
+const int maxn = 2e5 + 10;
+int t, n, k, a[maxn], vis[maxn];
+
+struct item{
+    ll index, val;
+};
+vector<item> items;
+
+bool comp(item it1, item it2){
+    if(it1.val != it2.val)
+        return it1.val > it2.val;
+    if(it1.index != it2.index)
+        return it1.index > it2.index;
+}
+
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(0), cout.tie(0);
+
+    cin >> t;
+    while(t--){
+        cin >> n >> k;
+        for (int i = 0; i < n; i++){
+            cin >> a[i];
+            items.push_back({i, a[i] - n + i});
+        }
+        sort(items.begin(), items.end(), comp);
+
+        ll res = 0;
+        for (int i = 0; i < k; i++){
+            if(items[i].val + res > 0)
+                vis[items[i].index] = 1, res += 1;
+            else
+                break;
+        }
+
+        ll ans = 0, tot = 0;
+        for (int i = 0; i < n; i++){
+            if(vis[i])
+                tot += 1;
+            else
+                ans += (a[i] + tot);
+        }
+
+        cout << ans << "\n";
+
+        for (int i = 0; i <= n; i++){
+            vis[i] = 0;
+        }
+        items.clear();
+    }
+    return 0;
+}
