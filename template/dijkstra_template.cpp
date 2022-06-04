@@ -56,13 +56,15 @@ void heap_dijkstra(int source){
 
     while(!q.empty()){
         pii now = q.top();
+        int nidx = now.second;
         q.pop();
-        if(vis[now.second])
+        if(vis[nidx])
             continue;
-        vis[now.second] = 1;
-        for (auto &iter : edges[now.second]){
-            dist[iter.to] = min(dist[iter.to], dist[now.second] + iter.w);
-            q.push({dist[iter.to], iter.to});
+        vis[nidx] = 1;
+        for (auto &iter : edges[nidx]){
+            int nto = iter.to, nw = iter.w;
+            dist[nto] = min(dist[nto], dist[nidx] + nw);
+            q.push({dist[nto], nto});
         }
     }
 }
