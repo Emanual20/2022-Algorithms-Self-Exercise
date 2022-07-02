@@ -3,7 +3,7 @@
  * @author Emanual20(Emanual20@foxmail.com)
  * @brief For Codeforces, Atcoder or some other OJs else
  * @version 0.1
- * @date 2022-06-28
+ * @date 2022-06-13
  * 
  * @copyright Copyright (c) 2022
  * 
@@ -16,9 +16,22 @@ typedef unsigned long long ull;
 typedef pair<int, int> pii;
 
 const int maxn = 2e5 + 10;
+int t, n, k, a[maxn];
 
 int main(){
     ios::sync_with_stdio(false);
     cin.tie(0), cout.tie(0);
 
+    cin >> t;
+    while(t--){
+        cin >> n >> k;
+        int sum = 0;
+        for (int i = 1; i <= n; i++){
+            cin >> a[i];
+            sum += a[i];
+        }
+        int ans = max(0, sum - k);
+        cout << ans << "\n";
+    }
+    return 0;
 }
