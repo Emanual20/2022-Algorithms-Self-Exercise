@@ -3,8 +3,8 @@ int n;
 struct DSU{
 public:
     int f[maxn], sz[maxn];
-    // remember to call dsu_init
-    void dsu_init(){
+    // remember to call init
+    void init(){
         for (int i = 1; i <= n; i++)
             f[i] = i, sz[i] = 1;
     }
