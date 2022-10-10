@@ -3,7 +3,7 @@
  * @author Emanual20(Emanual20@foxmail.com)
  * @brief For Codeforces, Atcoder or some other OJs else
  * @version 0.1
- * @date 2022-07-17
+ * @date 2022-07-28
  * 
  * @copyright Copyright (c) 2022
  * 
@@ -14,11 +14,13 @@ using namespace std;
 typedef long long ll;
 typedef unsigned long long ull;
 typedef pair<int, int> pii;
+ifstream fin("./1.in");
+ofstream fout("./1.txt");
 
 const int maxn = 1e5 + 10;
 const int inf = 0x3f3f3f3f;
 
-int n, m, w[maxn];
+int n, m, q, w[maxn];
 
 struct DSU{
 public:
@@ -51,11 +53,13 @@ struct Splay_Node{
 class Splay{
 public:
     Splay_Node tr[maxn];
-    int idx, root[maxn], n;
+    int root[maxn], n;
+    DSU dsu;
     Splay(int _n){
         memset(tr, 0, sizeof(tr));
-        idx = 0, n = _n;
-        for (int i = 1; i <= n; i++) root[i] = i;
+        n = _n;
+        for (int i = 1; i <= n; i++) root[i] = i, tr[i].val = w[i], tr[i].size = 1;
+        dsu.init();
     }
     
     void pushup(int x){
@@ -93,20 +97,42 @@ public:
                 else rotate(y);
             rotate(x);
         }
-        if(!k) root = x;
+        if(!k) root[dsu.find(x)] = x;
     }
 
-    void insert(int v){
-        int u = root, nf = 0;
+    void insert(int dst, int src){
+        int v = tr[src].val;
+        int u = root[dsu.find(dst)], nf = 0;
         while(u) nf = u, u = tr[u].s[v > tr[u].val];
-        u = ++idx;
-        if(nf) tr[nf].s[v > tr[nf].val] = u;
-        tr[u].init(v, nf);
-        splay_basic(u, 0);
+        if(nf) tr[nf].s[v > tr[nf].val] = src;
+        tr[src].init(v, nf), dsu.merge(dst, src);
+        splay_basic(src, 0);
     }
 
-    int get_k(int k){
-        int u = root;
+    void merge(int dst, int src){
+        if(dsu.find(dst) == dsu.find(src))
+            return;
+        if(tr[root[dsu.find(dst)]].size < tr[root[dsu.find(src)]].size)
+            swap(dst, src);
+        vector<int> vec; queue<int> q;
+        vec.push_back(src), q.push(src);
+        while(!q.empty()){
+            int now = q.front();
+            int lson = tr[now].s[0], rson = tr[now].s[1];
+            if(lson)
+                vec.push_back(lson), q.push(lson);
+            if(rson)
+                vec.push_back(rson), q.push(rson);
+            q.pop();
+        }
+        for(auto &it : vec)
+            this->insert(dst, it);
+    }
+
+    int get_k(int nroot, int k){
+        int u = root[dsu.find(nroot)];
+        if(tr[u].size < k)
+            return -1;
         while(1){
             // when we query node u, we should distribute its lazy tag to its sons.
             pushdown(u);
@@ -136,8 +162,25 @@ int main(){
     for (int i = 1; i <= n; i++){
         cin >> w[i];
     }
-    DSU dsu;
-    dsu.init();
-    int nfm, nto;
-
+    Splay spl(n);
+    char ch; int nfm, nto;
+    for (int i = 1; i <= m; i++){
+        cin >> nfm >> nto;
+        spl.merge(nfm, nto);
+    }
+    cin >> q;
+    while(q--){
+        cin >> ch >> nfm >> nto;
+        if(ch == 'Q'){
+            int nans = spl.get_k(nfm, nto);
+            cout << nans << "\n";
+        }
+        else if(ch == 'B'){
+            nfm = spl.dsu.find(nfm), nto = spl.dsu.find(nto);
+            if(nfm != nto){
+                spl.merge(nfm, nto);
+            }
+        }
+    }
+    return 0;
 }

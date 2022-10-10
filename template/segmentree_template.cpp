@@ -28,8 +28,7 @@ public:
 			return;
 		}
 		int mid = (left + right) >> 1;
-		build(left, mid, lson(k));
-		build(mid + 1, right, rson(k));
+		build(left, mid, lson(k)), build(mid + 1, right, rson(k));
 		Pushup(k);
 	}
 
